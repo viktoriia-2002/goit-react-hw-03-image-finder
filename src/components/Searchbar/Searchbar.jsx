@@ -3,26 +3,26 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default class Searchbar extends React.Component {
-  state = {
-    searchImage: '',
-  };
+  // state = {
+  //   searchImage: '',
+  // };
 
-  handleImageChange = event => {
-    this.setState({ searchImage: event.currentTarget.value.toLowerCase() });
-  };
+  // handleImageChange = event => {
+  //   this.setState({ searchImage: event.currentTarget.value.toLowerCase() });
+  // };
+  
+  // handleSubmit = event => {
+  //   event.preventDefault();
 
-  handleSubmit = event => {
-    event.preventDefault();
-
-    if (this.state.searchImage.trim() === '') {
-      return toast.error('Please enter type of image!');
-    }
-    this.setState({ searchImage: '' });
-  };
+  //   if (this.props.searchImage.trim() === '') {
+  //     return toast.error('Please enter type of image!');
+  //   }
+  //   this.setState({ searchImage: '' });
+  // };
   render() {
     return (
       <header className="searchbar">
-        <form className="form" onSubmit={this.handleSubmit}>
+        <form className="form" onSubmit={this.props.handleSubmit}>
           <button type="submit" className="button">
             <span className="button-label">Search</span>
           </button>
@@ -33,8 +33,8 @@ export default class Searchbar extends React.Component {
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
-            value={this.state.searchImage}
-            onChange={this.handleImageChange}
+            value={this.props.searchImage}
+            onChange={this.props.handleImageChange}
           />
         </form>
       </header>
