@@ -1,17 +1,17 @@
-// export const App = () => {
-//   return (
-//     <div
-//       style={{
-//         height: '100vh',
-//         display: 'flex',
-//         justifyContent: 'center',
-//         alignItems: 'center',
-//         fontSize: 40,
-//         color: '#010101'
-//       }}
-//     >
-//       React homework template
-//     </div>
-//   );
-// };
-// dsgdsd
+import React from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Searchbar from './Searchbar';
+
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <Searchbar />
+        <ToastContainer autoClose={3000}/>
+      </div>
+    );
+  }
+}
+
+export default App;
