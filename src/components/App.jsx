@@ -3,37 +3,30 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ImageGallery from './ImageGallery';
 import Searchbar from './Searchbar';
-import { toast } from 'react-toastify';
+import ButtonLoadMore from './Button/Button';
 
 class App extends React.Component {
   state = {
     searchImage: '',
+    page: 1,
   };
 
-  handleImageChange = event => {
-    this.setState({ searchImage: event.currentTarget.value.toLowerCase() });
-  };
-
-  handleSubmit = event => {
-    event.preventDefault();
-
-    if (this.state.searchImage.trim() === '') {
-      return toast.error('Please enter type of image!');
-    }
-    this.setState({ searchImage: '' });
+  handleSearchSubmit = searchImage => {
+    this.setState({ searchImage });
   };
 
   render() {
-    console.log(this.state.searchImage);
     return (
       <div>
         <Searchbar
-          handleImageChange={this.handleImageChange}
-          searchImage={this.state.searchImage}
-          handleSubmit={this.handleSubmit}
+          onSubmit={this.handleSearchSubmit}
+          // handleImageChange={this.handleImageChange}
+          // searchImage={this.state.searchImage}
+          // handleSubmit={this.handleSearchSubmit}
         />
         <ImageGallery searchImage={this.state.searchImage} />
-        <ToastContainer autoClose={2000} />
+        <ButtonLoadMore onLoadMore={this.onLoadMore} />
+        <ToastContainer autoClose={1000} />
       </div>
     );
   }
