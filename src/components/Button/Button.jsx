@@ -2,12 +2,16 @@ import React from 'react';
 
 class ButtonLoadMore extends React.Component {
   render() {
-    const { onLoadMore } = this.props;
-
+    const { handleLoadMore, page } = this.props;
+    console.log({ page });
     return (
-      <button onClick={onLoadMore} className="LoadMore">
-        Load more
-      </button>
+      <div>
+        {page >= 1 && (
+          <button onClick={handleLoadMore} className="LoadMore">
+            Load more
+          </button>
+        )}
+      </div>
     );
   }
 }

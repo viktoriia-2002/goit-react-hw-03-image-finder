@@ -9,36 +9,34 @@ export default class ImageGallery extends React.Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    console.log({ prevProps });
     const apiUrl = 'https://pixabay.com/api/';
     const apiKey = '36126930-7b2057d774b58ed23a3e8d721';
     const query = this.props.searchImage;
-    const page = 1;
-    const perPage = 12;
-
     const prevGroup = prevProps?.searchImage;
     const nextGroup = this.props.searchImage;
-    console.log({ prevGroup });
-    console.log({ nextGroup });
-    console.log({ query });
+    const prevPage = prevProps.page;
+    const nextPage = this.props.page;
 
-    if (prevGroup !== nextGroup) {
+    if (prevGroup !== nextGroup || prevPage !== nextPage) {
       this.setState({ loading: true });
 
-      setTimeout(() => {
-        fetch(
-          `${apiUrl}?q=${query}&page=${page}&key=${apiKey}&image_type=photo&orientation=horizontal&per_page=${perPage}`
-        )
-          .then(response => response.json())
-          .then(imageCards => this.setState({ imageCards: imageCards.hits }))
-          .finally(() => this.setState({ loading: false }));
-      }, 2000);
+      fetch(
+        `${apiUrl}?q=${query}&page=${nextPage}&key=${apiKey}&image_type=photo&orientation=horizontal&per_page=12`
+      )
+        .then(response => response.json())
+        .then(imageCards => {
+          if (imageCards.hits.length > 0) {
+            this.setState(prevState => ({
+              imageCards: [...prevState.imageCards, ...imageCards.hits],
+            }));
+          }
+        })
+        .finally(() => this.setState({ loading: false }));
     }
   }
 
   render() {
     const { loading, imageCards } = this.state;
-    console.log(imageCards);
 
     return (
       <div>
