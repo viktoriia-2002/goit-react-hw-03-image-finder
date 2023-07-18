@@ -1,13 +1,9 @@
 import ImageGalleryItem from 'components/ImageGalleryItem';
 import React from 'react';
 import { ImagesList } from './ImageGallery.styled';
+import Loader from '../Loader';
 
 export default class ImageGallery extends React.Component {
-  state = {
-    imageCards: [],
-    loading: false,
-  };
-
   componentDidUpdate(prevProps, prevState) {
     const apiUrl = 'https://pixabay.com/api/';
     const apiKey = '36126930-7b2057d774b58ed23a3e8d721';
@@ -18,33 +14,41 @@ export default class ImageGallery extends React.Component {
     const nextPage = this.props.page;
 
     if (prevGroup !== nextGroup || prevPage !== nextPage) {
-      this.setState({ loading: true });
+      this.props.handleLoading(true);
 
-      fetch(
-        `${apiUrl}?q=${query}&page=${nextPage}&key=${apiKey}&image_type=photo&orientation=horizontal&per_page=12`
-      )
-        .then(response => response.json())
-        .then(imageCards => {
-          if (imageCards.hits.length > 0) {
-            this.setState(prevState => ({
-              imageCards: [...prevState.imageCards, ...imageCards.hits],
-            }));
-          }
-        })
-        .finally(() => this.setState({ loading: false }));
+      setTimeout(() => {
+        fetch(
+          `${apiUrl}?q=${query}&page=${nextPage}&key=${apiKey}&image_type=photo&orientation=horizontal&per_page=12`
+        )
+          .then(response => response.json())
+          .then(imageCards => {
+            if (imageCards.hits.length > 0) {
+              console.log(imageCards.hits);
+              this.props.handleImages([
+                ...prevProps.imageCards,
+                ...imageCards.hits,
+              ]);
+            }
+          })
+          .finally(this.props.handleLoading(false));
+      }, 2000);
     }
   }
 
   render() {
-    const { loading, imageCards } = this.state;
+    const { imageCards, loading, handleOpenModal } = this.props;
 
     return (
       <div>
-        {loading && <div>Loading...</div>}
+        {loading && <Loader />}
         {!loading && imageCards && (
           <ImagesList className="gallery">
             {imageCards.map(imageCard => (
-              <ImageGalleryItem key={imageCard.id} imageCard={imageCard} />
+              <ImageGalleryItem
+                key={imageCard.id}
+                handleOpenModal={handleOpenModal}
+                imageCard={imageCard}
+              />
             ))}
           </ImagesList>
         )}
