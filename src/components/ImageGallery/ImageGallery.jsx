@@ -18,16 +18,24 @@ export default class ImageGallery extends React.Component {
 
       setTimeout(() => {
         fetch(
-          `${apiUrl}?q=${query}&page=${nextPage}&key=${apiKey}&image_type=photo&orientation=horizontal&per_page=12`
+          `${apiUrl}?q=${query}&page=${
+            this.props.page === 0 ? 1 : this.props.page + 1
+          }&key=${apiKey}&image_type=photo&orientation=horizontal&per_page=12`
         )
           .then(response => response.json())
           .then(imageCards => {
+            console.log(
+              prevPage === nextPage && this.props.imageCards.length !== 0
+            );
+            const isNewSearch =
+              prevPage === nextPage && this.props.imageCards.length !== 0;
             if (imageCards.hits.length > 0) {
               console.log(imageCards.hits);
-              this.props.handleImages([
-                ...prevProps.imageCards,
-                ...imageCards.hits,
-              ]);
+              this.props.handleImages(
+                isNewSearch
+                  ? [...imageCards.hits]
+                  : [...prevProps.imageCards, ...imageCards.hits]
+              );
             }
           })
           .finally(this.props.handleLoading(false));

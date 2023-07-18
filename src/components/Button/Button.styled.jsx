@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 
+export const BtnContainer = styled.div`
+  display: flex;
+`;
 export const Btn = styled.button`
 
     padding: 8px 16px;

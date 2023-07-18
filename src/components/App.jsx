@@ -9,14 +9,14 @@ import Modal from './Modal/Modal';
 class App extends React.Component {
   state = {
     searchImage: '',
-    page: 1,
+    page: 0,
     loading: false,
     imageCards: [],
     isOpenModal: false,
     selectedPicture: null,
   };
 
-  handleImages = array => {
+  handleImages = (array, page) => {
     this.setState({ imageCards: array });
   };
 
