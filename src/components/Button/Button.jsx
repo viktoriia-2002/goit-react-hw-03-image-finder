@@ -1,5 +1,5 @@
 import React from 'react';
-import { BtnLoadMore } from './Button.styled';
+import { Btn } from './Button.styled';
 
 class ButtonLoadMore extends React.Component {
   render() {
@@ -7,9 +7,9 @@ class ButtonLoadMore extends React.Component {
     return (
       <div>
         {page >= 1 && !!imageCards.length && !loading && (
-          <BtnLoadMore onClick={handleLoadMore} className="LoadMore">
+          <Btn onClick={handleLoadMore} className="LoadMore">
             Load more
-          </BtnLoadMore>
+          </Btn>
         )}
       </div>
     );

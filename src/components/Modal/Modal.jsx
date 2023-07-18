@@ -43,6 +43,7 @@
 // }
 
 // export default Modal;
+
 import React from 'react';
 import * as basicLightbox from 'basiclightbox';
 import '../../../node_modules/basiclightbox/dist/basicLightbox.min.css';
@@ -52,9 +53,12 @@ class Modal extends React.Component {
     modalInstance: null,
   };
 
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+    
+  }
   componentDidUpdate(prevProps) {
     const { isOpenModal, selectedPicture } = this.props;
-    const { modalInstance } = this.state;
 
     if (isOpenModal && selectedPicture !== prevProps.selectedPicture) {
       this.showModal(selectedPicture);
@@ -63,27 +67,23 @@ class Modal extends React.Component {
     if (!isOpenModal && prevProps.isOpenModal) {
       this.closeModal();
     }
+  }
 
-    if (isOpenModal && !prevProps.isOpenModal && modalInstance) {
-      this.closeModal();
-    }
+  componentWillUnmount() {
+    this.closeModal();
   }
 
   showModal(selectedPicture) {
-    const modalInstance = basicLightbox.create(`
+    this.modalInstance = basicLightbox.create(`
       <img src=${selectedPicture} width="800" height="600">
     `);
-    modalInstance.show();
-
-    this.setState({ modalInstance });
+    this.modalInstance.show();
   }
 
   closeModal() {
-    const { modalInstance } = this.state;
-
-    if (modalInstance) {
-      modalInstance.close();
-      this.setState({ modalInstance: null });
+    if (this.modalInstance) {
+      this.modalInstance.close();
+      this.modalInstance = null;
     }
   }
 
